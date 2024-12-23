@@ -19,12 +19,12 @@
   <meta name="author" content="Zhuoran Yang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="LLM in Video Generation 基于LLM的图像生成工作集中在  多模态模型（统一生成和理解）  T2I的生成能力的提升   DiT&#x2F;LLM 架构更受欢迎  例如Google(Imagen -&gt; VideoPoet) Meta(make a video -&gt; MovieGen)， Sora， Mochi1（GenmoAI）， STIV（Apple）等架构">
+    <meta name="description" content="LLM in Video Generation 问题分析 基于LLM的图像生成工作集中在  多模态模型（统一生成和理解）  T2I的生成能力的提升   DiT&#x2F;LLM 架构更受欢迎  例如Google(Imagen -&gt; VideoPoet) Meta(make a video -&gt; MovieGen)， Sora， Mochi1（GenmoAI）， STIV（Apple）等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LLM in Video Generation 问题分析">
 <meta property="og:url" content="http://example.com/2024/12/23/LLM%20in%20Video%20Generation/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="LLM in Video Generation 基于LLM的图像生成工作集中在  多模态模型（统一生成和理解）  T2I的生成能力的提升   DiT&#x2F;LLM 架构更受欢迎  例如Google(Imagen -&gt; VideoPoet) Meta(make a video -&gt; MovieGen)， Sora， Mochi1（GenmoAI）， STIV（Apple）等架构">
+<meta property="og:description" content="LLM in Video Generation 问题分析 基于LLM的图像生成工作集中在  多模态模型（统一生成和理解）  T2I的生成能力的提升   DiT&#x2F;LLM 架构更受欢迎  例如Google(Imagen -&gt; VideoPoet) Meta(make a video -&gt; MovieGen)， Sora， Mochi1（GenmoAI）， STIV（Apple）等">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/img/image-20241223191405424.png">
 <meta property="og:image" content="http://example.com/img/image-20241223194134833.png">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://example.com/img/image-20241223195326209.png">
 <meta property="og:image" content="http://example.com/img/image-20241223200421398.png">
 <meta property="article:published_time" content="2024-12-23T12:12:19.577Z">
-<meta property="article:modified_time" content="2024-12-23T12:34:50.822Z">
+<meta property="article:modified_time" content="2024-12-23T12:41:31.223Z">
 <meta property="article:author" content="Zhuoran Yang">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://example.com/img/image-20241223191405424.png">
@@ -228,7 +228,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          787 words
+          792 words
         
       </span>
     
@@ -281,7 +281,7 @@
             
               <div class="markdown-body">
                 
-                <h2 id="LLM-in-Video-Generation"><a href="#LLM-in-Video-Generation" class="headerlink" title="LLM in Video Generation"></a>LLM in Video Generation</h2><ul>
+                <h2 id="LLM-in-Video-Generation-问题分析"><a href="#LLM-in-Video-Generation-问题分析" class="headerlink" title="LLM in Video Generation 问题分析"></a>LLM in Video Generation 问题分析</h2><ul>
 <li><p>基于LLM的图像生成工作集中在</p>
 <ul>
 <li>多模态模型（统一生成和理解） </li>
@@ -335,13 +335,15 @@
 <li><p>low level &amp; high level feature的信息密度不同</p>
 </li>
 </ul>
-<p>Loong: Generating Minute-level Long Videos with Autoregressive Language Models</p>
-<p>Divot: Diffusion Powers Video Tokenizer for Comprehension and Generation 视频生成和理解统一</p>
-<p>ARLON: Boosting Diffusion Transformers with Autoregressive Models for Long Video Generation</p>
-<p>HART: Efficient Visual Generation with Hybrid Autoregressive Transformer EnzeXie 图像生成 SOTA </p>
-<p>Fluid: Scaling Autoregressive Text-to-image Generative Models with Continuous Tokens 连续的特征 </p>
-<p>VideoPoet: A Large Language Model for Zero-Shot Video Generation 视频生成SOTA</p>
-<p>Emu3: Next-Token Prediction is All You Need 视频生成和理解统一 </p>
+<h3 id="Paper-Lists"><a href="#Paper-Lists" class="headerlink" title="Paper Lists:"></a>Paper Lists:</h3><ul>
+<li>Loong: Generating Minute-level Long Videos with Autoregressive Language Models</li>
+<li>Divot: Diffusion Powers Video Tokenizer for Comprehension and Generation 视频生成和理解统一</li>
+<li>ARLON: Boosting Diffusion Transformers with Autoregressive Models for Long Video Generation</li>
+<li>HART: Efficient Visual Generation with Hybrid Autoregressive Transformer EnzeXie 图像生成 SOTA </li>
+<li>Fluid: Scaling Autoregressive Text-to-image Generative Models with Continuous Tokens 连续的特征 </li>
+<li>VideoPoet: A Large Language Model for Zero-Shot Video Generation 视频生成SOTA</li>
+<li>Emu3: Next-Token Prediction is All You Need 视频生成和理解统一</li>
+</ul>
 <h4 id="VideoPoet-A-Large-Language-Model-for-Zero-Shot-Video-Generation-2023-12"><a href="#VideoPoet-A-Large-Language-Model-for-Zero-Shot-Video-Generation-2023-12" class="headerlink" title="VideoPoet: A Large Language Model for Zero-Shot Video Generation [2023.12]"></a>VideoPoet: A Large Language Model for Zero-Shot Video Generation [2023.12]</h4><p><strong>keypoints</strong>: </p>
 <p>LLM，multi-modal generation</p>
 <p><strong>Objective：</strong></p>
