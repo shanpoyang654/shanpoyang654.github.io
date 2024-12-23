@@ -1,0 +1,975 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Zhuoran Yang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="TransformerLLMAnalysis of Weekly Papers on Transformer and LLM for Image and Video Generation.  Introduction Long-Context Processing TransformerFAM: Feedback attention is working memory RULER: What’s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Reproducing &quot;Slow Thinking Reasoning System&quot; like OpenAI o1">
+<meta property="og:url" content="http://example.com/2024/12/23/TransformerLLM/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="TransformerLLMAnalysis of Weekly Papers on Transformer and LLM for Image and Video Generation.  Introduction Long-Context Processing TransformerFAM: Feedback attention is working memory RULER: What’s">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://github.com/user-attachments/assets/8371df83-d9c0-4087-b415-658e6304dfff">
+<meta property="og:image" content="https://github.com/user-attachments/assets/d6b00bb9-cf69-4af0-9543-2e9fe1c5a9f4">
+<meta property="og:image" content="https://github.com/user-attachments/assets/18806876-2b19-4d3d-9896-26f82426d57d">
+<meta property="article:published_time" content="2024-12-23T12:28:03.536Z">
+<meta property="article:modified_time" content="2024-12-23T12:28:50.385Z">
+<meta property="article:author" content="Zhuoran Yang">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://github.com/user-attachments/assets/8371df83-d9c0-4087-b415-658e6304dfff">
+  
+  
+  
+  <title>Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1 - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Shanpoyang</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-12-23 20:28" pubdate>
+          December 23, 2024 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          573 words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          5 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="TransformerLLM"><a href="#TransformerLLM" class="headerlink" title="TransformerLLM"></a>TransformerLLM</h1><p>Analysis of Weekly Papers on <strong>Transformer and LLM</strong> for <strong>Image and Video Generation</strong>.</p>
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#long-context-processing">Long-Context Processing</a><ul>
+<li><a href="#transformerfam-feedback-attention-is-working-memory">TransformerFAM: Feedback attention is working memory</a></li>
+<li><a href="#ruler-whats-the-real-context-size-of-your-long-context-language-models">RULER: What’s the Real Context Size of Your Long-Context Language Models?</a></li>
+<li><a href="#lloco-learning-long-contexts-offline">LLoCO: Learning Long Contexts Offline</a></li>
+<li><a href="#better--faster-large-language-models-via-multi-token-prediction">Better &amp; Faster Large Language Models via Multi-token Prediction</a></li>
+<li><a href="#koala-key-frame-conditioned-long-video-llm">Koala: Key frame-conditioned long video-LLM</a></li>
+<li><a href="#ma-lmm-memory-augmented-large-multimodal-model-for-long-term-video-understanding">MA-LMM: Memory-Augmented Large Multimodal Model for Long-Term Video Understanding</a></li>
+<li><a href="#moviechat-from-dense-token-to-sparse-memory-for-long-video-understanding">MovieChat: From Dense Token to Sparse Memory for Long Video Understanding</a></li>
+<li><a href="#megalodon-efficient-llm-pretraining-and-inference-with-unlimited-context-length">Megalodon Efficient LLM Pretraining and Inference with Unlimited Context Length</a></li>
+<li><a href="#triforce-lossless-acceleration-of-long-sequence-generation-with-hierarchical-speculative-decoding">TriForce: Lossless Acceleration of Long Sequence Generation with Hierarchical Speculative Decoding</a></li>
+</ul>
+</li>
+<li><a href="#scaling">Scaling</a><ul>
+<li><a href="#ivideogpt-interactive-videogpts-are-scalable-world-models">iVideoGPT: Interactive VideoGPTs are Scalable World Models</a></li>
+<li><a href="#beyond-scaling-laws-understanding-transformer-performance-with-associative-memory">Beyond Scaling Laws: Understanding Transformer Performance with Associative Memory</a></li>
+<li><a href="#diffscaler-enhancing-the-generative-prowess-of-diffusion-transformers">Diffscaler: Enhancing the Generative Prowess of Diffusion Transformers</a></li>
+<li><a href="#stacking-your-transformers-a-closer-look-at-model-growth-for-efficient-llm-pre-training">Stacking Your Transformers: A Closer Look at Model Growth for Efficient LLM Pre-Training</a></li>
+</ul>
+</li>
+<li><a href="#camera-control">camera control</a><ul>
+<li><a href="#vd3d-taming-large-video-diffusion-transformers-for-3d-camera-control">VD3D: Taming Large Video Diffusion Transformers for 3D Camera Control</a></li>
+</ul>
+</li>
+<li><a href="#performance--others">Performance &amp; Others</a><ul>
+<li><a href="#what-matters-when-building-vision-language-models">What matters when building vision-language models?</a></li>
+<li><a href="#not-all-language-model-features-are-linear">Not All Language Model Features Are Linear</a></li>
+<li><a href="#llm2vec-large-language-models-are-secretly-powerful-text-encoders">LLM2Vec: Large Language Models Are Secretly Powerful Text Encoders</a></li>
+<li><a href="#adapting-llama-decoder-to-vision-transformer">Adapting LLaMA Decoder to Vision Transformer</a></li>
+<li><a href="#rho-1-not-all-tokens-are-what-you-need">RHO-1: Not All Tokens Are What You Need</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Long-Context-Processing"><a href="#Long-Context-Processing" class="headerlink" title="Long-Context Processing"></a>Long-Context Processing</h2><h3 id="TransformerFAM-Feedback-attention-is-working-memory"><a href="#TransformerFAM-Feedback-attention-is-working-memory" class="headerlink" title="TransformerFAM: Feedback attention is working memory"></a>TransformerFAM: Feedback attention is working memory</h3><ul>
+<li><code>Keypoints:</code> Feedback Attention Memory (FAM)、 Working Memory in Transformers、Long-Context Processing、Efficiency and Integration</li>
+<li><code>Objective:</code>The paper aims to address the limitation of Transformers in processing long sequences due to their quadratic attention complexity. The goal is to enable Transformers to handle indefinitely long inputs by introducing a novel architecture that mimics working memory mechanisms found in the human brain.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code><br>The authors propose the TransformerFAM architecture, which integrates a feedback loop to allow the network to attend to its own latent representations. This design introduces a working memory component that compresses and propagates information over an indefinite horizon without additional weights, thus maintaining past information for long contexts. TransformerFAM is designed to be compatible with pre-trained models and is tested across various model sizes.</li>
+<li><code>Results:</code><br>The effectiveness of TransformerFAM is evaluated through significant improvements on long-context tasks across different model sizes (1B, 8B, and 24B). The results demonstrate that TransformerFAM outperforms standard Transformer models and Block Sliding Window Attention (BSWA) models on tasks requiring long-term contextual understanding, showcasing its potential for empowering Large Language Models (LLMs) to process sequences of unlimited length.</details></li>
+</ul>
+</li>
+</ul>
+<h3 id="RULER-What’s-the-Real-Context-Size-of-Your-Long-Context-Language-Models"><a href="#RULER-What’s-the-Real-Context-Size-of-Your-Long-Context-Language-Models" class="headerlink" title="RULER: What’s the Real Context Size of Your Long-Context Language Models?"></a>RULER: What’s the Real Context Size of Your Long-Context Language Models?</h3><ul>
+<li><p><code>Keypoints:</code> Long-context LMs; Synthetic Benchmark;</p>
+</li>
+<li><p><code>Objective:</code>To provide a more comprehensive evaluation of long-context LMs, we create a new synthetic benchmark RULER with flexible configurations for customized sequence length and task complexity.</p>
+</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code><ul>
+<li>We propose a new benchmark RULER for evaluating long-context language models via synthetic tasks with flexible configurations.</li>
+<li>We introduce new task categories, specifically multi-hop tracing and aggregation, to test behaviors other than retrieval from long context. </li>
+<li>We evaluate ten long-context LMs using RULER and perform analysis across models and task complexities.  </details></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="LLoCO-Learning-Long-Contexts-Offline"><a href="#LLoCO-Learning-Long-Contexts-Offline" class="headerlink" title="LLoCO: Learning Long Contexts Offline"></a>LLoCO: Learning Long Contexts Offline</h3><ul>
+<li><code>Keypoints:</code> Long-context LMs; Synthetic Benchmark;</li>
+<li><code>Objective:</code> Their method enables an LLM to create a concise representation of the original context and efficiently retrieve relevant information to answer questions accurately.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code> They introduce LLoCO, a technique that combines context compression, retrieval, and parameter-efficient finetuning using LoRA. Their approach extends the effective context window of a 4k token LLaMA2-7B model to handle up to 128k tokens.</li>
+<li><code>Metric:</code> In the experiment section, they aim to investigate the following aspects of LLoCO: (1) its effectiveness in comprehending compressed long contexts, (2) the extent to which summary embeddings can preserve essential information, and (3) the associated system costs.</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+<h3 id="Better-Faster-Large-Language-Models-via-Multi-token-Prediction"><a href="#Better-Faster-Large-Language-Models-via-Multi-token-Prediction" class="headerlink" title="Better &amp; Faster Large Language Models via Multi-token Prediction"></a>Better &amp; Faster Large Language Models via Multi-token Prediction</h3><ul>
+<li><code>Keypoints:</code>  LLM; Multi-token Prediction;</li>
+<li><code>Objective:</code>In this work, they suggest that training language models to predict multiple future tokens at once results leading to higher sample efficiency.</li>
+</ul>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8371df83-d9c0-4087-b415-658e6304dfff" srcset="/img/loading.gif" lazyload width="200" />
+  <img src="https://github.com/user-attachments/assets/d6b00bb9-cf69-4af0-9543-2e9fe1c5a9f4" srcset="/img/loading.gif" lazyload width="450" />
+</p>
+
+
+
+<h3 id="Koala-Key-frame-conditioned-long-video-LLM"><a href="#Koala-Key-frame-conditioned-long-video-LLM" class="headerlink" title="Koala: Key frame-conditioned long video-LLM"></a>Koala: Key frame-conditioned long video-LLM</h3><ul>
+<li><code>Keypoints:</code>Long Video Understanding; Key Frame-Conditioned LLM; Sparsely Sampled Key Frames; Zero-Shot Long Video QA;</li>
+<li><code>Objective:</code>The research aims to enhance the capability of Large Language Models (LLMs), specifically video-based (vLLMs), to understand and answer questions about long videos (minutes-long) by addressing the limitations of existing models trained on short video clips.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><p><code>Method:</code> The proposed approach, Koala, introduces a lightweight and self-supervised method that uses learnable spatiotemporal queries to adapt pretrained vLLMs for generalizing to longer videos. It employs sparsely sampled key frames to condition the LLM, allowing it to focus on relevant regions in the input frames and make more informed predictions. The method introduces two new tokenizers that condition on visual tokens computed from these key frames for understanding both short and long video moments.</p>
+</li>
+<li><p><code>Metric:</code> The effectiveness of Koala is tested on zero-shot long video understanding benchmarks, including EgoSchema and SeedBench. The results show that Koala outperforms state-of-the-art large models by 3 - 6% in absolute accuracy across all tasks, demonstrating a significant improvement in long-term temporal understanding while maintaining efficiency. Additionally, Koala also improves the model’s accuracy on short-term action recognition.</p>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+
+
+<h3 id="MA-LMM-Memory-Augmented-Large-Multimodal-Model-for-Long-Term-Video-Understanding"><a href="#MA-LMM-Memory-Augmented-Large-Multimodal-Model-for-Long-Term-Video-Understanding" class="headerlink" title="MA-LMM: Memory-Augmented Large Multimodal Model for Long-Term Video Understanding"></a>MA-LMM: Memory-Augmented Large Multimodal Model for Long-Term Video Understanding</h3><ul>
+<li><code>Keypoints:</code>Memory bank; Long-Term Video Understanding;</li>
+<li><code>Objective:</code>Instead of trying to process more frames simultaneously like most existing work, they propose to process videos in an online manner and store past video information in a memory bank.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code><ul>
+<li>Auto-regressively process video frames in an online manner;</li>
+<li>Visual Feature Extraction：we inject temporal ordering information into the frame-level features by a position embedding layer (P E);</li>
+<li>Long-term Temporal Modeling：(1) cross-attention layer, which interacts with the raw visual embedding extracted from the frozen visual encoder, and (2) self-attention layer, which models interactions within the input queries.</li>
+<li>Memory Bank Compression： we simply average the selected token features at all the spatial locations to reduce the memory bank length by 1；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+<h3 id="MovieChat-From-Dense-Token-to-Sparse-Memory-for-Long-Video-Understanding"><a href="#MovieChat-From-Dense-Token-to-Sparse-Memory-for-Long-Video-Understanding" class="headerlink" title="MovieChat: From Dense Token to Sparse Memory for Long Video Understanding"></a>MovieChat: From Dense Token to Sparse Memory for Long Video Understanding</h3><ul>
+<li><p><code>Keypoints:</code>Long video understanding; redundancy of visual tokens; Memory mechanism;</p>
+</li>
+<li><p><code>Objective:</code>For long videos understanding, thery overcome these challenges: computation complexity, memory cost, and long-term temporal connection  by reducing the redundancy of visual tokens in the video and building a memory mechanism to pass the information among a large temporal range.</p>
+</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><p><code>Method:</code>Taking advantage of the AtkinsonShiffrin memory model, with tokens in Transformers being employed as the carriers of memory in combination with their specially designed memory mechanism:</p>
+<ul>
+<li>short term memory: extracted visual features by sliding window G times without further processing are used to construct short-term memory; The update strategy for short-term memory is based on the First-in-First-out (FIFO) queue;</li>
+<li>long term memory: dense tokens to the sparse memories by merging the most similar tokens in the adjacent frames following ToMe periodically; The goal is to keep RL frames after every merge operation, which also embeds rich information stored in the long-term memory.</li>
+</ul>
+</li>
+<li><p><code>Metric:</code>To enhance the robustness of the results, we simultaneously employ GPT-3.5 and Claude as LLM assistants, with the additional support of human blind rating; MovieChat reads more video frames. In both global mode and breakpoint mode, our method maintains a performance gain in terms of the average accuracy and score provided by LLM assistants and human blind rating;</p>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+<h3 id="Megalodon-Efficient-LLM-Pretraining-and-Inference-with-Unlimited-Context-Length"><a href="#Megalodon-Efficient-LLM-Pretraining-and-Inference-with-Unlimited-Context-Length" class="headerlink" title="Megalodon Efficient LLM Pretraining and Inference with Unlimited Context Length"></a>Megalodon Efficient LLM Pretraining and Inference with Unlimited Context Length</h3><ul>
+<li><code>Keypoints:</code> Exponential moving average with gated attention; LLM；Unlimited Context Length</li>
+<li><code>Objective:</code>We introduce MEGALODON, an neural architecture for efficient sequence modeling with unlimited context length.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code>MEGALODON inherits the architecture of MEGA (exponential moving average with gated attention), and further introduces multiple technical components to improve its capability and stability, including complex exponential moving average (CEMA), timestep normalization layer, normalized attention mechanism and pre-norm with two-hop residual configuration.</li>
+</ul>
+</li>
+</ul>
+</details> 
+
+
+<h3 id="TriForce-Lossless-Acceleration-of-Long-Sequence-Generation-with-Hierarchical-Speculative-Decoding"><a href="#TriForce-Lossless-Acceleration-of-Long-Sequence-Generation-with-Hierarchical-Speculative-Decoding" class="headerlink" title="TriForce: Lossless Acceleration of Long Sequence Generation with Hierarchical Speculative Decoding"></a>TriForce: Lossless Acceleration of Long Sequence Generation with Hierarchical Speculative Decoding</h3><ul>
+<li><code>Keypoints:</code> Hierarchical Speculative Decoding、Lossless Acceleration、Efficient Long-Sequence Inference</li>
+<li><code>Objective:</code> The primary objective of the paper is to develop a system that can efficiently accelerate the inference process for long sequence generation in large language models without degrading the quality of the output.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code> <ul>
+<li>The TriForce system is presented, which employs a hierarchical speculative decoding approach.</li>
+<li>It leverages a draft model with a partial key-value (KV) cache to generate tokens, which are then verified by a target model using a full KV cache.</li>
+<li>The system uses a lightweight model for initial speculations and a retrieval-based drafting method for selecting relevant KV cache chunks.</li>
+<li>The hierarchical structure allows for addressing the bottlenecks in both model weights and KV cache, leading to improved inference speed.</li>
+</ul>
+</li>
+<li><code>Summary:</code> <ul>
+<li>TriForce achieves significant speedups in long sequence generation, such as up to 2.31x for the Llama2-7B-128K model on the A100 GPU and 7.78x on two RTX 4090 GPUs.  </details></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Scaling"><a href="#Scaling" class="headerlink" title="Scaling"></a>Scaling</h2><h3 id="iVideoGPT-Interactive-VideoGPTs-are-Scalable-World-Models"><a href="#iVideoGPT-Interactive-VideoGPTs-are-Scalable-World-Models" class="headerlink" title="iVideoGPT: Interactive VideoGPTs are Scalable World Models"></a>iVideoGPT: Interactive VideoGPTs are Scalable World Models</h3><ul>
+<li><code>Keypoints:</code> Video Generation Model; Interactive Video Prediction; VQ-GAN;</li>
+<li><code>Objective:</code> To explore the development of world models that are both interactive and scalable within a GPT-like autoregressive transformer framework, and facilitate interactive behaviour learning.</li>
+</ul>
+<h3 id="Beyond-Scaling-Laws-Understanding-Transformer-Performance-with-Associative-Memory"><a href="#Beyond-Scaling-Laws-Understanding-Transformer-Performance-with-Associative-Memory" class="headerlink" title="Beyond Scaling Laws: Understanding Transformer Performance with Associative Memory"></a>Beyond Scaling Laws: Understanding Transformer Performance with Associative Memory</h3><ul>
+<li><p><code>Keypoints:</code> LLM、Scaling Laws、memorization;</p>
+</li>
+<li><p><code>Objective:</code> We present a theoretical framework that sheds light on the memorization process and performance dynamics of transformer-based language models.</p>
+</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code> We model the behavior of Transformers with associative memories using Hopfield networks, such that each transformer block effectively conducts an approximate nearest-neighbor search. Based on this, we design an energy function analogous to that in the modern continuous Hopfield network which provides an insightful explanation for the attention mechanism.</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+<h3 id="Diffscaler-Enhancing-the-Generative-Prowess-of-Diffusion-Transformers"><a href="#Diffscaler-Enhancing-the-Generative-Prowess-of-Diffusion-Transformers" class="headerlink" title="Diffscaler: Enhancing the Generative Prowess of Diffusion Transformers"></a>Diffscaler: Enhancing the Generative Prowess of Diffusion Transformers</h3><ul>
+<li><code>Keypoints:</code> Parameter efficient finetuning; Incremental learning for diffusion;</li>
+<li><code>Objective:</code> This paper focuses on enabling a single pre-trained diffusion transformer model to scale across multiple datasets swiftly, allowing for the completion of diverse generative tasks using just one model.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code><ul>
+<li>init class embeddings of a new dataset by uc embedding; </li>
+<li>propose a Affiner module to finetune new classes; </li>
+<li>scaling up Affiner to support multiple datasets; </li>
+<li>Diffscaler can serve as an alternative to ControlNet. It does not use a separate network to encode conditions but directly utilizes an Affiner. However, there are no specific descriptions provided. In terms of parameters, Diffscaler adds 7M, whereas ControlNet adds 300M.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+
+
+<h3 id="Stacking-Your-Transformers-A-Closer-Look-at-Model-Growth-for-Efficient-LLM-Pre-Training"><a href="#Stacking-Your-Transformers-A-Closer-Look-at-Model-Growth-for-Efficient-LLM-Pre-Training" class="headerlink" title="Stacking Your Transformers: A Closer Look at Model Growth for Efficient LLM Pre-Training"></a>Stacking Your Transformers: A Closer Look at Model Growth for Efficient LLM Pre-Training</h3><ul>
+<li><code>Keypoints:</code> Model Growth;  LLM Pre-Training;</li>
+<li><code>Objective:</code> To overcome these limitations, we first summarize existing works into four atomic growth operators to represent these growth techniques. Then we build a standardized LLMs training testbed to pre-train LLMs with four growth operators on depthwise and widthwise directions and evaluate the results with both training loss and eight evaluation metrics in Harness.</li>
+</ul>
+<h2 id="camera-control"><a href="#camera-control" class="headerlink" title="camera control"></a>camera control</h2><h3 id="VD3D-Taming-Large-Video-Diffusion-Transformers-for-3D-Camera-Control"><a href="#VD3D-Taming-Large-Video-Diffusion-Transformers-for-3D-Camera-Control" class="headerlink" title="VD3D: Taming Large Video Diffusion Transformers for 3D Camera Control"></a>VD3D: Taming Large Video Diffusion Transformers for 3D Camera Control</h3><ul>
+<li><p><code>Keypoints:</code>  Transformer-based video diffusion models; camera control motion; video generation; controlnet</p>
+</li>
+<li><p><code>Objective:</code>large video transformers for 3D camera control using a ControlNet-like conditioning mechanism that incorporates spatiotemporal camera embeddings based on Plucker coordinates</p>
+</li>
+<li><p><code>Motivation:</code>any attempt to alter the temporal dynamics (such as camera motion) influences spatial communication between the tokens, leading to unnecessary signal propagation and overfitting during the fine-tuning stage</p>
+</li>
+<li><p><code>Method:</code></p>
+<img width="508" alt="qsvX_03PkE78KOQ17PWzh6B-eVY9b4GBR1-wTFtPBE4" src="https://github.com/user-attachments/assets/18806876-2b19-4d3d-9896-26f82426d57d" srcset="/img/loading.gif" lazyload>
+</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code><br>based on SnapVideo:<br>video_patch–&gt;conditioned with camera plucker–&gt;CrossAttn with textcond–&gt;FIT Block–&gt;new latent–&gt;denoise–&gt;output:pixel_level_video</li>
+</ul>
+<p>conditioned with camera plucker: similar to controlNet</p>
+</li>
+</ul>
+</details>
+
+<h2 id="Performance-Others"><a href="#Performance-Others" class="headerlink" title="Performance &amp; Others"></a>Performance &amp; Others</h2><h3 id="What-matters-when-building-vision-language-models"><a href="#What-matters-when-building-vision-language-models" class="headerlink" title="What matters when building vision-language models?"></a>What matters when building vision-language models?</h3><ul>
+<li><p><code>Keypoints:</code> Vision-Language Models (VLMs);Design Decisions; Performance Improvement;</p>
+</li>
+<li><p><code>Objective:</code>The article aims to identify critical factors that influence the performance of vision-language models (VLMs) and to challenge the conventional design choices made in the literature without proper justification. The goal is to make progress in the field by determining which decisions genuinely improve model performance.</p>
+</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><p><code>Method:</code>The researchers conducted extensive experiments on various aspects, including pre-trained models, architectural choices, data selection, and training methodologies. They developed Idefics2, an 8 billion parameter foundational VLM, which was tested and compared with other models. They also explored different design choices such as model architecture, connector modules, multimodal training procedures, and inference efficiency.</p>
+</li>
+<li><p><code>Metric:</code> They achieved state-of-the-art performance within its size category across multiple benchmarks, often matching or exceeding the performance of models four times its size. The model demonstrated efficiency at inference and was released alongside the datasets used for its training, providing a resource for the VLM community. The performance was measured using various multimodal benchmarks like VQAv2, TextVQA, OKVQA, and COCO.</p>
+</li>
+<li><p>Finding 1. For a fixed number of parameters, the quality of the language model backbone has a higher impact on the performance of the final VLM than the quality of the vision backbone</p>
+</li>
+<li><p>Finding 2. The cross-attention architecture performs better than the fully autoregressive one when unimodal pre-trained backbones are kept frozen. However, when training the unimodal backbones, the fully autoregressive architecture outperforms the cross-attention one, even though the latter has more parameters.</p>
+</li>
+<li><p>Finding 3. Unfreezing the pre-trained backbones under the fully autoregressive architecture can lead to training divergences. Leveraging LoRA still adds expressivity to the training and stabilizes it.</p>
+</li>
+<li><p>Finding 4. Reducing the number of visual tokens with learned pooling significantly improves compute efficiency at training and inference while improving performance on downstream tasks.</p>
+</li>
+<li><p>Finding 5. Adapting a vision encoder pre-trained on fixed-size square images to preserve images’ original aspect ratio and resolution does not degrade performance while speeding up training and inference and reducing memory.</p>
+</li>
+<li><p>Finding 6. Splitting images into sub-images during training allow trading compute efficiency for more performance during inference. The increase in performance is particularly noticeable in tasks involving reading text in an image.</p>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+
+<h3 id="Not-All-Language-Model-Features-Are-Linear"><a href="#Not-All-Language-Model-Features-Are-Linear" class="headerlink" title="Not All Language Model Features Are Linear"></a>Not All Language Model Features Are Linear</h3><ul>
+<li><p><code>Keypoints:</code> Multi-dimensional Features; Language Model Interpretability; Sparse Autoencoders (SAEs);</p>
+</li>
+<li><p><code>Objective:</code>The research aims to challenge the linear representation hypothesis by exploring the presence of inherently multi-dimensional features within language models. The goal is to understand if language models use these multi-dimensional representations for computation and to uncover the underlying algorithms.</p>
+</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><p><code>Method:</code> The authors develop a method using sparse autoencoders to automatically discover multi-dimensional features within GPT-2 and Mistral 7B language models. They propose a superposition hypothesis that accounts for these new features and test for irreducible features using a theoretically grounded and empirically practical test.</p>
+</li>
+<li><p><code>Metric:</code> The effectiveness of the discovered features is validated through intervention experiments on Mistral 7B and Llama 3 8B models, demonstrating that circular features are causally implicated in computing tasks involving modular arithmetic of days and months. The models’ performance on these tasks is measured by comparing the highest logit valid token against the ground truth answer, showing a significant enhancement in understanding the models’ internal representations.</p>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+
+<h3 id="LLM2Vec-Large-Language-Models-Are-Secretly-Powerful-Text-Encoders"><a href="#LLM2Vec-Large-Language-Models-Are-Secretly-Powerful-Text-Encoders" class="headerlink" title="LLM2Vec: Large Language Models Are Secretly Powerful Text Encoders"></a>LLM2Vec: Large Language Models Are Secretly Powerful Text Encoders</h3><ul>
+<li><code>Keypoints:</code> LLM2Vec; Text Embedding; Unsupervised Learning; Performance Enhancement;</li>
+<li><code>Objective:</code> The research aims to transform decoder-only Large Language Models (LLMs) into powerful text encoders for various NLP tasks without requiring labeled data, thus improving the state-of-the-art in text embedding.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><p><code>Method:</code>The LLM2Vec approach involves three steps: enabling bidirectional attention, masked next token prediction (MNTP), and unsupervised contrastive learning (SimCSE). This method is applied to LLMs with parameters ranging from 1.3B to 7B.</p>
+</li>
+<li><p><code>Metric:</code>The effectiveness of LLM2Vec is evaluated on word-level tasks (chunking, NER, POS tagging) and sequence-level tasks using the Massive Text Embeddings Benchmark (MTEB). The models demonstrate significant performance improvements, with the best model achieving a score of 56.8 on MTEB, outperforming encoder-only models and setting a new unsupervised state-of-the-art.</p>
+</li>
+</ul>
+</li>
+</ul>
+</details>
+
+
+
+<h3 id="Adapting-LLaMA-Decoder-to-Vision-Transformer"><a href="#Adapting-LLaMA-Decoder-to-Vision-Transformer" class="headerlink" title="Adapting LLaMA Decoder to Vision Transformer"></a>Adapting LLaMA Decoder to Vision Transformer</h3><ul>
+<li><code>Keypoints:</code> LLaMA Decoder Adaptation;Causal Self-Attention; Soft Mask Strategy;</li>
+<li><code>Objective:</code>The research aims to adapt the LLaMA decoder-only architecture, originally designed for large language models, to the field of computer vision. The goal is to explore the potential of using this architecture for tasks such as image classification and to achieve competitive performance compared to encoder-only counterparts.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code>The study introduces a series of modifications to align the standard ViT architecture with that of LLaMA. Key modifications include:<ul>
+<li>Repositioning the class token behind image tokens using a post-sequence class token technique to address the attention collapse issue.</li>
+<li>Implementing a soft mask strategy that gradually introduces a causal mask to the self-attention, facilitating optimization.</li>
+<li>Employing causal self-attention to enhance computational efficiency and learn complex representations.</li>
+</ul>
+</li>
+<li><code>Metric:</code>The tailored model, iLLaMA, was evaluated on the ImageNet-1K dataset, achieving a top-1 accuracy of 75.1% with 5.7M parameters. When scaled up and pre-trained on ImageNet-21K, the model further enhanced its accuracy to 86.0%. Extensive experiments demonstrated iLLaMA’s reliable properties, including calibration, shape-texture bias, quantization compatibility, ADE20K segmentation, and CIFAR transfer learning, rivaling the performance of encoder-only models.</details></li>
+</ul>
+</li>
+</ul>
+<h3 id="RHO-1-Not-All-Tokens-Are-What-You-Need"><a href="#RHO-1-Not-All-Tokens-Are-What-You-Need" class="headerlink" title="RHO-1: Not All Tokens Are What You Need"></a>RHO-1: Not All Tokens Are What You Need</h3><ul>
+<li><code>Keypoints:</code> Reference language model； Hard tokens;</li>
+<li><code>Objective:</code> Applying the same loss to all tokens can result in wasted computation on non-beneficial tokens, possibly limiting LLM’s potential to merely mediocre intelligence.</li>
+<li><details>
+<summary>Details</summary>
+
+<ul>
+<li><code>Method:</code> <ul>
+<li>Our findings reveal that significant loss reduction is limited to a select group of tokens during training. Many tokens are “easy tokens” that are already learned, and some are “hard tokens” that exhibit variable losses and resist convergence. These tokens can lead to numerous ineffective gradient updates；</li>
+<li>First, SLM trains a reference language model on high-quality corpora. This model establishes utility metrics to score tokens according to the desired distribution, naturally filtering out unclean and irrelevant tokens. Second, SLM uses the reference model to score each token in a corpus using its loss. Finally, we train a language model only on those tokens that exhibit a high excess loss between the reference and the training model, selectively learning the tokens that best benefit downstream applications.</li>
+</ul>
+</li>
+<li><code>Metric:</code>SLM improves average few-shot accuracy on GSM8k and MATH by over 16%, achieving the baseline performance 5-10x faster.</li>
+</ul>
+</li>
+</ul>
+</details>
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1</div>
+      <div>http://example.com/2024/12/23/TransformerLLM/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>Zhuoran Yang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>December 23, 2024</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/12/23/Video%20Generation/" title="Video Generation Paper Reading">
+                        <span class="hidden-mobile">Video Generation Paper Reading</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>

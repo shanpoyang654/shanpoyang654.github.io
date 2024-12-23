@@ -19,21 +19,23 @@
   <meta name="author" content="Zhuoran Yang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Reproducing “Slow Thinking Reasoning System” like OpenAI o1Slow Thinking Reasoning Definition:a extended thinking process before responding to a query, allowing them to generate more thorough, accurat">
+    <meta name="description" content="DiT in Video GenerationDiT的问题 时序一致性  时空编码  DiT的参数利用率低   Diffusion1.Pyramidal Flow Matching for Efficient Video Generative Modeling  2.Mimir: Improving Video Diffusion Models for Precise Text Understan">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Reproducing &quot;Slow Thinking Reasoning System&quot; like OpenAI o1">
-<meta property="og:url" content="http://example.com/2024/12/18/SlowThinking/index.html">
+<meta property="og:title" content="DiT in Video Generation">
+<meta property="og:url" content="http://example.com/2024/12/23/DiT_in_Video_Generation/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Reproducing “Slow Thinking Reasoning System” like OpenAI o1Slow Thinking Reasoning Definition:a extended thinking process before responding to a query, allowing them to generate more thorough, accurat">
+<meta property="og:description" content="DiT in Video GenerationDiT的问题 时序一致性  时空编码  DiT的参数利用率低   Diffusion1.Pyramidal Flow Matching for Efficient Video Generative Modeling  2.Mimir: Improving Video Diffusion Models for Precise Text Understan">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-12-18T06:29:41.987Z">
-<meta property="article:modified_time" content="2024-12-23T12:12:07.768Z">
+<meta property="og:image" content="http://example.com/img/image-20241223202107449.png">
+<meta property="article:published_time" content="2024-12-23T10:55:01.315Z">
+<meta property="article:modified_time" content="2024-12-23T12:21:17.093Z">
 <meta property="article:author" content="Zhuoran Yang">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img/image-20241223202107449.png">
   
   
   
-  <title>Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1 - Hexo</title>
+  <title>DiT in Video Generation - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +201,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1"></span>
+            <span id="subtitle" data-typed-text="DiT in Video Generation"></span>
           
         </div>
 
@@ -210,8 +212,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-18 14:29" pubdate>
-          December 18, 2024 pm
+        <time datetime="2024-12-23 18:55" pubdate>
+          December 23, 2024 pm
         </time>
       </span>
     
@@ -222,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          73 words
+          108 words
         
       </span>
     
@@ -270,51 +272,37 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1</h1>
+            <h1 id="seo-header">DiT in Video Generation</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="Reproducing-“Slow-Thinking-Reasoning-System”-like-OpenAI-o1"><a href="#Reproducing-“Slow-Thinking-Reasoning-System”-like-OpenAI-o1" class="headerlink" title="Reproducing “Slow Thinking Reasoning System” like OpenAI o1"></a>Reproducing “Slow Thinking Reasoning System” like OpenAI o1</h2><h3 id="Slow-Thinking-Reasoning-Definition"><a href="#Slow-Thinking-Reasoning-Definition" class="headerlink" title="Slow Thinking Reasoning Definition:"></a>Slow Thinking Reasoning Definition:</h3><p>a extended thinking process before responding to a query, allowing them to generate more thorough, accurate, and well-reasoned solutions, to tackle challenging tasks</p>
-<h3 id="Technical-Approach"><a href="#Technical-Approach" class="headerlink" title="Technical Approach"></a>Technical Approach</h3><ul>
-<li><p>Solution 1 <strong>RLHF</strong>：</p>
-<p>a policy model, a reward model, and a search algorithm. During inference, the policy model is guided by the reward model to perform the tree search to find correct solutions to mathematical problems.</p>
+                <h2 id="DiT-in-Video-Generation"><a href="#DiT-in-Video-Generation" class="headerlink" title="DiT in Video Generation"></a>DiT in Video Generation</h2><h3 id="DiT的问题"><a href="#DiT的问题" class="headerlink" title="DiT的问题"></a>DiT的问题</h3><ul>
+<li><p>时序一致性</p>
 </li>
-<li><p>Solution 2 <strong>SFT</strong>: </p>
-<ul>
-<li><p>Phase 0 <strong>Collect long-form thought dataset</strong>:</p>
-<p>beam search (MCTS) or distill from QwQ-32B-preview &#x2F; DeepSeek-R1-Lite-Preview by multiple rollouts</p>
+<li><p>时空编码</p>
 </li>
-<li><p>Phase 1 <strong>Instruction Tuning to activate a slow-thinking mode</strong>:</p>
-<p>demonstration data is necessary. This data serves the dual purposes of format adherence (i.e., following a slow-thinking response) and ability elicitation (i.e., activating a slow-thinking mode).</p>
-</li>
-<li><p>Phase 2 <strong>SFT using distilled long-form thought dataset</strong>: </p>
-<p>use distilled long-form thought data to fine-tune the reasoning model, enabling it to invoke a slow-thinking mode. The model is then encouraged to explore challenging problems by generating multiple rollouts, which can result in increasingly more high-quality trajectories that lead to correct answers.</p>
-</li>
-<li><p>Phase 3 <strong>Exploration on hard problems</strong>:</p>
-<p>collect a variety of problems with ground-truth answers for exploration</p>
-<p>challenging problems, which require longer thought processes for reasoning, are particularly useful for improving the model’s performance</p>
-</li>
-<li><p>Phase 4 <strong>Self-improvement</strong>:</p>
-<ul>
-<li><p><strong>self-improvement:</strong></p>
-<p>as we scale the number of rollouts, we can collect an increasing number of problems, while the quality of the trajectories improves as the reasoning model is further trained. This iterative process is crucial for self-improvement training.</p>
-</li>
-<li><p><strong>optimization:</strong></p>
-<p>use the selected trajectories to further enhance the LLM’s reasoning abilities.</p>
-<ul>
-<li><strong>SFT</strong></li>
-<li><strong>DPO</strong></li>
-<li><strong>RL</strong></li>
-</ul>
+<li><p>DiT的参数利用率低</p>
 </li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2412.09413">Imitate, Explore, and Self-Improve: A Reproduction Report on Slow-thinking Reasoning Systems</a></p>
-
+<h3 id="Diffusion"><a href="#Diffusion" class="headerlink" title="Diffusion"></a>Diffusion</h3><p>1.Pyramidal Flow Matching for Efficient Video Generative Modeling </p>
+<p>2.Mimir: Improving Video Diffusion Models for Precise Text Understanding</p>
+<p>3.Infinity: Scaling Bitwise AutoRegressive Modeling for High-Resolution Image Synthesis</p>
+<p>4.MarDini: Masked Auto-Regressive Diffusion for Video Generation at Scale Meta</p>
+<p>5.DiCoDe: Diffusion-Compressed Deep Tokens for Autoregressive Video Generation with Language Models</p>
+<p>6.Ca2-VDM: Efficient Autoregressive Video Diffusion Model with Causal Generation and Cache Sharing</p>
+<p>7.ViD-GPT: Introducing GPT-style Autoregressive Generation in Video Diffusion Models Huawei Cloud, 没有视频，不太work</p>
+<h3 id="DiT"><a href="#DiT" class="headerlink" title="DiT"></a>DiT</h3><p>CogVideoX: Text-to-Video Diffusion Models with An Expert Transformer </p>
+<p>Open-Sora Plan: Open-Source Large Video Generation Model</p>
+<p>WF-VAE: Enhancing Video VAE by Wavelet-Driven Energy Flow for Latent Video Diffusion Model</p>
+<h4 id="Pyramidal-Flow-Matching-for-Efficient-Video-Generative-Modeling"><a href="#Pyramidal-Flow-Matching-for-Efficient-Video-Generative-Modeling" class="headerlink" title="Pyramidal Flow Matching for Efficient Video Generative Modeling"></a>Pyramidal Flow Matching for Efficient Video Generative Modeling</h4><p><strong>keypoints:</strong></p>
+<p>DiT，Efficiency，video generation</p>
+<p><strong>objective:</strong></p>
+<p>the necessity of modeling a significantly large spatiotemporal space makes the training of such video generative models computationally and data intensive.</p>
+<p><img src="/img/image-20241223202107449.png" srcset="/img/loading.gif" lazyload alt="image-20241223202107449"></p>
+<p><strong>Summary:</strong></p>
+<p>通过时序和空间pyramidal结构相结合，大大减少了训练时需要的token数量，提升训练效率，同时保持了性能的优越性</p>
+<h4 id="CogVideoX-Text-to-Video-Diffusion-Models-with-An-Expert-Transformer"><a href="#CogVideoX-Text-to-Video-Diffusion-Models-with-An-Expert-Transformer" class="headerlink" title="CogVideoX: Text-to-Video Diffusion Models with An Expert Transformer"></a>CogVideoX: Text-to-Video Diffusion Models with An Expert Transformer</h4>
                 
               </div>
             
@@ -331,8 +319,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1</div>
-      <div>http://example.com/2024/12/18/SlowThinking/</div>
+      <div>DiT in Video Generation</div>
+      <div>http://example.com/2024/12/23/DiT_in_Video_Generation/</div>
     </div>
     <div class="license-meta">
       
@@ -344,7 +332,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>December 18, 2024</div>
+          <div>December 23, 2024</div>
         </div>
       
       
@@ -376,15 +364,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/12/19/Long-duration%20Video%20Generation/" title="Long-duration Video Generation">
+                      <a href="/2024/12/23/Scaling_Law/" title="Scaling Law">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Long-duration Video Generation</span>
+                        <span class="hidden-mobile">Scaling Law</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/12/23/AutoRegressive_in_Video_Generation/" title="AutoRegressive in Video Generation">
+                        <span class="hidden-mobile">AutoRegressive in Video Generation</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

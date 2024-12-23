@@ -19,21 +19,21 @@
   <meta name="author" content="Zhuoran Yang">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Reproducing “Slow Thinking Reasoning System” like OpenAI o1Slow Thinking Reasoning Definition:a extended thinking process before responding to a query, allowing them to generate more thorough, accurat">
+    <meta name="description" content="Image Generation📌Controllable Generation MAGICTAILOR:COMPONENT-CONTROLLABLE PERSONALIZATION IN TEXT-TO-IMAGE DIFFUSION MODELS [DiT] [2024.07] [preprint] [project page][code]\ ControlNeXt: Powerful an">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Reproducing &quot;Slow Thinking Reasoning System&quot; like OpenAI o1">
-<meta property="og:url" content="http://example.com/2024/12/18/SlowThinking/index.html">
+<meta property="og:title" content="Image Generation Paper Reading">
+<meta property="og:url" content="http://example.com/2024/12/23/Image%20Generation/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Reproducing “Slow Thinking Reasoning System” like OpenAI o1Slow Thinking Reasoning Definition:a extended thinking process before responding to a query, allowing them to generate more thorough, accurat">
+<meta property="og:description" content="Image Generation📌Controllable Generation MAGICTAILOR:COMPONENT-CONTROLLABLE PERSONALIZATION IN TEXT-TO-IMAGE DIFFUSION MODELS [DiT] [2024.07] [preprint] [project page][code]\ ControlNeXt: Powerful an">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-12-18T06:29:41.987Z">
-<meta property="article:modified_time" content="2024-12-23T12:12:07.768Z">
+<meta property="article:published_time" content="2024-12-23T12:23:29.094Z">
+<meta property="article:modified_time" content="2024-12-23T12:35:22.196Z">
 <meta property="article:author" content="Zhuoran Yang">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1 - Hexo</title>
+  <title>Image Generation Paper Reading - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -199,7 +199,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1"></span>
+            <span id="subtitle" data-typed-text="Image Generation Paper Reading"></span>
           
         </div>
 
@@ -210,8 +210,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-18 14:29" pubdate>
-          December 18, 2024 pm
+        <time datetime="2024-12-23 20:23" pubdate>
+          December 23, 2024 pm
         </time>
       </span>
     
@@ -222,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          73 words
+          196 words
         
       </span>
     
@@ -233,7 +233,7 @@
         
         
         
-          1 mins
+          2 mins
         
       </span>
     
@@ -270,50 +270,51 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1</h1>
+            <h1 id="seo-header">Image Generation Paper Reading</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="Reproducing-“Slow-Thinking-Reasoning-System”-like-OpenAI-o1"><a href="#Reproducing-“Slow-Thinking-Reasoning-System”-like-OpenAI-o1" class="headerlink" title="Reproducing “Slow Thinking Reasoning System” like OpenAI o1"></a>Reproducing “Slow Thinking Reasoning System” like OpenAI o1</h2><h3 id="Slow-Thinking-Reasoning-Definition"><a href="#Slow-Thinking-Reasoning-Definition" class="headerlink" title="Slow Thinking Reasoning Definition:"></a>Slow Thinking Reasoning Definition:</h3><p>a extended thinking process before responding to a query, allowing them to generate more thorough, accurate, and well-reasoned solutions, to tackle challenging tasks</p>
-<h3 id="Technical-Approach"><a href="#Technical-Approach" class="headerlink" title="Technical Approach"></a>Technical Approach</h3><ul>
-<li><p>Solution 1 <strong>RLHF</strong>：</p>
-<p>a policy model, a reward model, and a search algorithm. During inference, the policy model is guided by the reward model to perform the tree search to find correct solutions to mathematical problems.</p>
-</li>
-<li><p>Solution 2 <strong>SFT</strong>: </p>
-<ul>
-<li><p>Phase 0 <strong>Collect long-form thought dataset</strong>:</p>
-<p>beam search (MCTS) or distill from QwQ-32B-preview &#x2F; DeepSeek-R1-Lite-Preview by multiple rollouts</p>
-</li>
-<li><p>Phase 1 <strong>Instruction Tuning to activate a slow-thinking mode</strong>:</p>
-<p>demonstration data is necessary. This data serves the dual purposes of format adherence (i.e., following a slow-thinking response) and ability elicitation (i.e., activating a slow-thinking mode).</p>
-</li>
-<li><p>Phase 2 <strong>SFT using distilled long-form thought dataset</strong>: </p>
-<p>use distilled long-form thought data to fine-tune the reasoning model, enabling it to invoke a slow-thinking mode. The model is then encouraged to explore challenging problems by generating multiple rollouts, which can result in increasingly more high-quality trajectories that lead to correct answers.</p>
-</li>
-<li><p>Phase 3 <strong>Exploration on hard problems</strong>:</p>
-<p>collect a variety of problems with ground-truth answers for exploration</p>
-<p>challenging problems, which require longer thought processes for reasoning, are particularly useful for improving the model’s performance</p>
-</li>
-<li><p>Phase 4 <strong>Self-improvement</strong>:</p>
-<ul>
-<li><p><strong>self-improvement:</strong></p>
-<p>as we scale the number of rollouts, we can collect an increasing number of problems, while the quality of the trajectories improves as the reasoning model is further trained. This iterative process is crucial for self-improvement training.</p>
-</li>
-<li><p><strong>optimization:</strong></p>
-<p>use the selected trajectories to further enhance the LLM’s reasoning abilities.</p>
-<ul>
-<li><strong>SFT</strong></li>
-<li><strong>DPO</strong></li>
-<li><strong>RL</strong></li>
+                <h1 id="Image-Generation"><a href="#Image-Generation" class="headerlink" title="Image Generation"></a>Image Generation</h1><h3 id="📌Controllable-Generation"><a href="#📌Controllable-Generation" class="headerlink" title="📌Controllable Generation"></a>📌Controllable Generation</h3><ul>
+<li><a href="#MAGICTAILOR-COMPONENT-CONTROLLABLE-PERSONALIZATION-IN-TEXT-TO-IMAGE-DIFFUSION-MODELS">MAGICTAILOR:COMPONENT-CONTROLLABLE PERSONALIZATION IN TEXT-TO-IMAGE DIFFUSION MODELS</a> <code>[DiT]</code> <code>[2024.07]</code> <code>[preprint]</code> [<a target="_blank" rel="noopener" href="https://correr-zhou.github.io/MagicTailor/">project page</a>][<a target="_blank" rel="noopener" href="https://github.com/correr-zhou/MagicTailor">code</a>]\</li>
+<li>ControlNeXt: Powerful and Efficient Control for Image and Video Generation<code>[SD]</code> <code>[2024.08]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.06070">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/dvlab-research/ControlNeXt">code</a>]</li>
+<li>Eliminating Oversaturation and Artifacts of High Guidance Scales in Diffusion Models <code>[SD]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.02416">paper</a>]</li>
+<li>Improving Long-Text Alignment for Text-to-Image Diffusion Models<code>[SD]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.11817">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/luping-liu/LongAlign">code</a>]</li>
+<li>Diversity-Rewarded CFG Distillation <code>[2024.08]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.06084">paper</a>]</li>
+<li>InstanceDiffusion:Instance-level Control for Image Generation<code>[SD]</code> <code>[2024.02]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2402.03290">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/frank-xwang/InstanceDiffusion">code</a>]</li>
+<li>IFAdapter: Instance feature control for grounded Text-to-Image Generation <code>[SD]</code> <code>[2024.09]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2409.08240">paper</a>]</li>
+<li>Taming Rectified Flow for Inversion and Editing <code>[DIT]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.04746">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/wangjiangshan0725/RF-Solver-Edit">code</a>]</li>
+<li>OminiControl: Minimal and Universal Control for Diffusion Transformer <code>[DIT]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.15089">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/Yuanshi9815/OminiControl">code</a>]</li>
+<li>ROICtrl: Boosting Instance Control for Visual Generation <code>[SD]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.17949">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/showlab/ROICtrl">code</a>]</li>
+<li>Diffusion Self-Distillation for Zero-Shot Customized Image Generation <code>[DIT]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.18616">paper</a>]</li>
+<li>On Inductive Biases That Enable Generalization of Diffusion Transformers <code>[DIT]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.21273">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/DiT-Generalization/DiT-Generalization">code</a>]</li>
 </ul>
-</li>
+<h3 id="📌Super-Resolution"><a href="#📌Super-Resolution" class="headerlink" title="📌Super Resolution"></a>📌Super Resolution</h3><ul>
+<li>MegaFusion: Extend Diffusion Models towards Higher-resolution Image Generation without Further Tuning<code>[SD]</code> <code>[2024.08]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.11001">paper</a>] [<a target="_blank" rel="noopener" href="https://haoningwu3639.github.io/MegaFusion">code</a>]</li>
 </ul>
-</li>
+<h3 id="📌MultiModal"><a href="#📌MultiModal" class="headerlink" title="📌MultiModal"></a>📌MultiModal</h3><ul>
+<li>JanusFlow: Harmonizing Autoregression and Rectified Flow for Unified Multimodal Understanding and Generation <code>[AR]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.07975">paper</a>] [<a href="">paper analysis</a>]</li>
+<li>Janus: Decoupling Visual Encoding for Unified Multimodal Understanding and Generation <code>[AR]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.13848">paper</a>] [<a target="_blank" rel="noopener" href="https://mickeyding.github.io/post/%E3%80%90-lun-wen-yue-du-%E3%80%91Janus-%20Decoupling%20Visual%20Encoding%20for%20Unified%20Multimodal%20Understanding%20and%20Generation.html">paper analysis</a>]</li>
+<li>MONOFORMER: ONE TRANSFORMER FOR BOTH DIFFUSION AND AUTOREGRESSION <code>[SD+AR]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2409.16280">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/MonoFormer/MonoFormer">code</a>] [<a target="_blank" rel="noopener" href="https://mickeyding.github.io/post/%E3%80%90-lun-wen-yue-du-%E3%80%91MONOFORMER-%20ONE%20TRANSFORMER%20FOR%20BOTH%20DIFFUSION%20AND%20AUTOREGRESSION.html">paper analysis</a>]</li>
+<li>SHOW-O: ONE SINGLE TRANSFORMER TO UNIFY MULTIMODAL UNDERSTANDING AND GENERATION <code>[SD+AR]</code> <code>[2024.08]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2408.12528">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/showlab/Show-o">code</a>] [<a target="_blank" rel="noopener" href="https://mickeyding.github.io/post/%E3%80%90-lun-wen-yue-du-%E3%80%91Show-o-%20ONE%20SINGLE%20TRANSFORMER%20TO%20UNIFY%20MULTIMODAL%20UNDERSTANDING%20AND%20GENERATION.html">paper analysis</a>]</li>
+<li>Mixture-of-Transformers: A Sparse and Scalable Architecture for Multi-Modal Foundation Models<code>[DiT]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2411.04996">paper</a>] [<a target="_blank" rel="noopener" href="https://github.com/sanowl/Mixture-of-Transformers-A-Sparse-and-Scalable-Architecture-for-Multi-Modal-Foundation-Model-meta">code</a>]</li>
 </ul>
-</li>
+<h3 id="📌Autoregressive-Generation"><a href="#📌Autoregressive-Generation" class="headerlink" title="📌Autoregressive Generation"></a>📌Autoregressive Generation</h3><ul>
+<li>DART: DENOISING AUTOREGRESSIVE TRANSFORMER FOR SCALABLE TEXT-TO-IMAGE GENERATION <code>[SD+AR]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.08159">paper</a>]</li>
+<li>Fluid: Scaling Autoregressive Text-to-image Generative Models with Continuous Tokens <code>[AR]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2410.13863">paper</a>]</li>
 </ul>
-<h4 id="References"><a href="#References" class="headerlink" title="References:"></a>References:</h4><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2412.09413">Imitate, Explore, and Self-Improve: A Reproduction Report on Slow-thinking Reasoning Systems</a></p>
+<h3 id="📌Efficiency"><a href="#📌Efficiency" class="headerlink" title="📌Efficiency"></a>📌Efficiency</h3><ul>
+<li>Representation Alignment for Generation: Training Diffusion Transformers Is Easier Than You Think <code>[DiT]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.06940">paper</a>]</li>
+<li>SANA: Efficient High-Resolution Image Synthesis with Linear Diffusion Transformers <code>[DiT]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.10629">paper</a>]</li>
+<li>RECTIFIED DIFFUSION: STRAIGHTNESS IS NOT YOUR NEED IN RECTIFIED FLOW <code>[SD]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2410.07303">paper</a>]</li>
+<li>Simplifying, Stabilizing and Scaling Continuous-Time Consistency Models <code>[CM]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2410.11081">paper</a>]</li>
+</ul>
+<h3 id="📌Dataset-Expansion"><a href="#📌Dataset-Expansion" class="headerlink" title="📌Dataset Expansion"></a>📌Dataset Expansion</h3><ul>
+<li>Scalable Ranked Preference Optimization for Text-to-Image Generation <code>[SD]</code> <code>[2024.10]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2410.18013">paper</a>]</li>
+</ul>
+<h3 id="📌High-Fidelity-Generation"><a href="#📌High-Fidelity-Generation" class="headerlink" title="📌High-Fidelity Generation"></a>📌High-Fidelity Generation</h3><ul>
+<li>Edify Image: High-Quality Image Generation with Pixel Space Laplacian Diffusion Models <code>[SD]</code> <code>[2024.11]</code> [<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2411.07126">paper</a>]</li>
+</ul>
 
                 
               </div>
@@ -331,8 +332,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Reproducing &#34;Slow Thinking Reasoning System&#34; like OpenAI o1</div>
-      <div>http://example.com/2024/12/18/SlowThinking/</div>
+      <div>Image Generation Paper Reading</div>
+      <div>http://example.com/2024/12/23/Image Generation/</div>
     </div>
     <div class="license-meta">
       
@@ -344,7 +345,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>Posted on</div>
-          <div>December 18, 2024</div>
+          <div>December 23, 2024</div>
         </div>
       
       
@@ -376,15 +377,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/12/19/Long-duration%20Video%20Generation/" title="Long-duration Video Generation">
+                      <a href="/2024/12/23/Video%20Generation/" title="Video Generation Paper Reading">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Long-duration Video Generation</span>
+                        <span class="hidden-mobile">Video Generation Paper Reading</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/12/23/3D%20Video%20Generation/" title="3D information in Video Generation">
+                        <span class="hidden-mobile">3D information in Video Generation</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
