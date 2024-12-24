@@ -114,7 +114,7 @@
     <link href="/2024/12/23/Scaling_Law/"/>
     <url>/2024/12/23/Scaling_Law/</url>
     
-    <content type="html"><![CDATA[<h2 id="Scaling-Law"><a href="#Scaling-Law" class="headerlink" title="Scaling Law"></a>Scaling Law</h2><ol><li>SCALING LAWS FOR DIFFUSION TRANSFORMERS </li><li>Towards Precise Scaling Laws for Video Diffusion Transformers 快手</li><li>Fluid: Scaling Autoregressive Text-to-image Generative Models with Continuous Tokens:</li></ol><p>​基于连续token的模型比离散token模型在视觉质量上更好。</p><p>​随机顺序生成与光栅顺序相比在GenEval测试上得分明显更好</p>]]></content>
+    <content type="html"><![CDATA[<h2 id="Scaling-Law"><a href="#Scaling-Law" class="headerlink" title="Scaling Law"></a>Scaling Law</h2><ol><li>SCALING LAWS FOR DIFFUSION TRANSFORMERS </li><li>Towards Precise Scaling Laws for Video Diffusion Transformers 快手</li><li>Fluid: Scaling Autoregressive Text-to-image Generative Models with Continuous Tokens</li></ol>]]></content>
     
     
     <categories>
