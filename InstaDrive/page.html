@@ -539,6 +539,36 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
+
+          <!-- Paper & GitHub links -->
+          <div class="buttons is-centered" style="margin-bottom: 1.5rem;">
+            <a href="https://www.researchgate.net/publication/394053515_InstaDrive_Instance-Aware_Driving_World_Models_for_Realistic_and_Consistent_Video_Generation" target="_blank" class="button is-link is-medium">
+              📄 Paper
+            </a>
+            <a href="https://github.com/shanpoyang654/InstaDrive" target="_blank" class="button is-dark is-medium">
+              💻 GitHub
+            </a>
+          </div>
+
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Autonomous driving relies on robust models trained on high-quality, large-scale multi-view driving videos for tasks like perception, tracking, and planning. While world models offer a cost-effective solution for generating realistic driving videos, they struggle to maintain instance-level temporal consistency and spatial geometric fidelity. To address these challenges, we propose InstaDrive, a novel framework that enhances driving video realism through two key advancements: (1) Instance Flow Guider module, which extracts and propagates instance features across frames to enforce temporal consistency, preserving instance identity over time. (2) Spatial Geometric Aligner module, which improves spatial reasoning, ensures precise instance positioning, and explicitly models occlusion hierarchies. By incorporating these instance-aware mechanisms, InstaDrive achieves state-of-the-art video generation quality and enhances downstream autonomous driving tasks on the nuScenes dataset. Additionally, we utilize CARLA's autopilot to procedurally and stochastically simulate rare yet safety-critical driving scenarios across diverse maps and regions, enabling rigorous safety evaluation for autonomous systems.
+            </p>
+          </div>
+
+          <img src="./data/teaser.png" alt="InstaDrive Overview">
+          <img src="./data/flow.png" alt="InstaDrive method">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- <section class="section hero is-light">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
@@ -551,7 +581,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
 
   <section class="hero is-small">
     <div class="hero-body">
